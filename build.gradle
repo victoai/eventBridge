@@ -1,0 +1,49 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.5.9'
+	id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+description = 'Demo project for Spring Boot'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(17)
+	}
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	compileOnly 'org.projectlombok:lombok'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+
+
+	//eventbridge 사용을 위한 의존성
+	implementation platform("software.amazon.awssdk:bom:2.25.47")
+	implementation "software.amazon.awssdk:eventbridge"
+
+	//람다 핸들러 작성을 위한 의존성
+	implementation 'com.amazonaws:aws-lambda-java-core:1.2.2'
+	implementation 'software.amazon.awssdk:ses:2.22.12'  // SES SDK
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
